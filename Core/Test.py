@@ -1,4 +1,0 @@
-print("adadasd")
-
-print("test")
-
