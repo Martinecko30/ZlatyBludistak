@@ -6,6 +6,8 @@ import random
 from Core.gameobject import GameObject
 from Graphics import graphics
 
+import Core.core as c
+
 
 def __main__():
     graphics.start()
@@ -13,11 +15,16 @@ def __main__():
 
     graphics.add_object(GameObject((100, 100)))
 
+    player = c.Player(difficulty = "medium")
+    maze = None # Zde vytvořit mapu
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 terminate()
+            c.handle_player_movement(event, player, maze)
+        c.check_and_change_map(player)
 
         graphics.main_draw()
 
