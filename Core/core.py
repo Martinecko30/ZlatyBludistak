@@ -17,6 +17,7 @@ class Player:
         self.direction = None
         self.difficulty = difficulty
         self.time_in_game = time.time()
+        self.start_time = time.time()
 
         self.set_difficulty() 
             
@@ -41,6 +42,19 @@ class Player:
                 self.time_to_change_map = 10
                 self.map_size = [20, 20]
 
+def check_if_is_over(player: Player):
+    '''
+    Parameter: player
+    Returnig: none
+    Functionality: Zkontroluje jestli je hráč na konci mapy
+    '''
+    if player.pos_x == player.map_size[0] and player.pos_y == player.map_size[1]:
+        print("Je konec hry")
+        diff = time.time() - player.start_time
+        # Zavolat fuknci endscreen
+        return True
+
+
 def check_and_change_map(player: Player):
     '''
     Parameter: player
@@ -49,6 +63,7 @@ def check_and_change_map(player: Player):
     '''
     if time.time() - player.time_in_game > player.time_to_change_map:
         # MazeGeneration.generate_new_map()
+        player.time_in_game = time.time()
         pass
     
 def handle_player_movement(event, player, maze):

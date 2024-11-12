@@ -24,6 +24,9 @@ def __main__():
                 running = False
                 terminate()
             c.handle_player_movement(event, player, maze)
+        if c.check_if_is_over(player):
+            # Zavolat funkci endScreen
+            pass
         c.check_and_change_map(player)
 
         graphics.draw_fog_of_war(2)
