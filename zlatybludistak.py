@@ -26,6 +26,8 @@ def __main__():
             c.handle_player_movement(event, player, maze)
         c.check_and_change_map(player)
 
+        graphics.draw_fog_of_war(2)
+
         graphics.main_draw()
 
 def terminate():
