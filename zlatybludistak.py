@@ -6,6 +6,8 @@ from Graphics import graphics
 
 import Core.core as c
 
+MAX_FPS = 120
+
 
 def __main__():
     graphics.start()
@@ -15,6 +17,8 @@ def __main__():
 
     player = c.Player(difficulty = "medium")
     maze = None # Zde vytvořit mapu
+
+    clock = pygame.time.Clock()
 
     last_time = 0
     while running:
@@ -30,11 +34,15 @@ def __main__():
         if c.check_if_is_over(player):
             # Zavolat funkci endScreen
             pass
+
         c.check_and_change_map(player)
+
+        graphics.main_draw()
 
         graphics.draw_fog_of_war(5)
 
-        graphics.main_draw()
+        graphics.flip_display()
+        clock.tick(MAX_FPS)
 
 def terminate():
     graphics.end()

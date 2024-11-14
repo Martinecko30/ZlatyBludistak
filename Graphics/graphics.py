@@ -28,9 +28,13 @@ def end():
 
 def main_draw():
     global GAME_OBJECTS
+
+    DISPLAY.fill("white")
+
     for game_object in GAME_OBJECTS:
         draw_object(game_object)
 
+def flip_display():
     pygame.display.flip()
 
 def add_objects(_game_objects: list[GameObject]):
@@ -59,4 +63,8 @@ def draw_fog_of_war(radius: float):
 
     DISPLAY.blit(fog_of_war, top_left)
     pygame.display.flip()
+
+def draw_rect(x: int, y: int):
+    global DISPLAY
+    pygame.draw.rect(DISPLAY, Color('red'), (x, y, 30, 30))
 
