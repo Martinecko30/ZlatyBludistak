@@ -19,7 +19,7 @@ def start():
     global DISPLAY, CLOCK
     pygame.init()
     pygame.display.set_caption('Zlaty Bludistak')
-    DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
+    DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SRCALPHA)
     CLOCK = pygame.time.Clock()
     DISPLAY.fill(Color('white'))
 
@@ -51,13 +51,11 @@ def draw_text(text: str, position: tuple[int, int], draw_position: DrawPosition)
 def draw_fog_of_war(radius: float):
     global DISPLAY, WIDTH, HEIGHT
     path_to_file = Path('resources/fog_of_war.png')
-    fog_of_war = pygame.image.load(path_to_file)
+    fog_of_war = pygame.image.load(path_to_file).convert_alpha()
     size = fog_of_war.get_size()
     fog_of_war = pygame.transform.scale(fog_of_war, (size[0] * radius, size[1] * radius))
-    print(size, WIDTH, HEIGHT)
 
     top_left = (- abs((WIDTH / 2) - (size[0] * radius / 2)), - abs((HEIGHT / 2) - (size[1] * radius / 2)))
-    print(top_left)
 
     DISPLAY.blit(fog_of_war, top_left)
     pygame.display.flip()

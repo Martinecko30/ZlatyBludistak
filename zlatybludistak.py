@@ -1,7 +1,5 @@
 import pygame
-from pygame.locals import *
-import sys
-import random
+import sys, random, time, math
 
 from Core.gameobject import GameObject
 from Graphics import graphics
@@ -18,7 +16,12 @@ def __main__():
     player = c.Player(difficulty = "medium")
     maze = None # Zde vytvořit mapu
 
+    last_time = 0
     while running:
+        current_time = time.time()
+        delta_time = (current_time - last_time) / 1000
+        last_time = current_time
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -29,7 +32,7 @@ def __main__():
             pass
         c.check_and_change_map(player)
 
-        graphics.draw_fog_of_war(2)
+        graphics.draw_fog_of_war(5)
 
         graphics.main_draw()
 
