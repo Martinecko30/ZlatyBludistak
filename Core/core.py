@@ -72,9 +72,9 @@ def handle_player_movement(event, player, maze):
     Returnig: none
     Functionality: NÁVRH po získání eventu pohyb zkontroluje jesli může udělat pohyb a popř. ho udělá
     '''
-    get_key_direction(event, player)
-    if can_make_move(player, maze):
-        move_player(player)  
+    if None is not get_key_direction(event, player):
+        if can_make_move(player, maze):
+            move_player(player)
 
 def get_key_direction(event, player: Player):
     '''
@@ -122,10 +122,21 @@ def can_make_move(player: Player, maze):
     Parameter: player, map
     Returnig: true, false
     Functionality: Zjisti jeslti může udělat pohyb (jestli tam není zed)
-
-    Zatím nic nebot nevím jak bude implementováné bludiště
     '''
-    return True
+    
+    if player.direction == UP:
+        if player.pos_y > 0:
+            return not maze.board[player.pos_x][player.pos_y - 1].top_wall
+    elif player.direction == DOWN:
+        if player.pos_y < len(maze.board[0]) - 1:
+            return not maze.board[player.pos_x][player.pos_y + 1].down_wall
+    elif player.direction == LEFT:
+        if player.pos_x > 0:
+            return not maze.board[player.pos_x - 1][player.pos_y].left_wall
+    elif player.direction == RIGHT:
+        if player.pos_x < len(maze.board) - 1:
+            return not maze.board[player.pos_x + 1][player.pos_y].right_wall
+    return False
 
 
 
