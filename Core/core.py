@@ -48,7 +48,7 @@ def check_if_is_over(player: Player):
     Returnig: none
     Functionality: Zkontroluje jestli je hráč na konci mapy
     '''
-    if player.pos_x == player.map_size[0] and player.pos_y == player.map_size[1]:
+    if player.pos_x == player.map_size[0] - 1 and player.pos_y == player.map_size[1] - 1:
         print("Je konec hry")
         diff = time.time() - player.start_time
         # Zavolat fuknci endscreen
@@ -64,6 +64,7 @@ def check_and_change_map(player: Player):
     if time.time() - player.time_in_game > player.time_to_change_map:
         # MazeGeneration.generate_new_map()
         player.time_in_game = time.time()
+        print("Cas na zmenu")
         pass
     
 def handle_player_movement(event, player, maze):

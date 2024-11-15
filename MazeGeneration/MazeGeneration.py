@@ -1,6 +1,6 @@
 from inspect import stack
 
-from diceroll import dice_roll
+from MazeGeneration.diceroll import dice_roll
 
 class MazeCell:
     def __init__(self, x_coord:int, y_coord:int):

@@ -6,6 +6,8 @@ from Graphics import graphics
 
 import Core.core as c
 
+import MazeGeneration.MazeGeneration as mz
+
 MAX_FPS = 120
 
 
@@ -15,8 +17,10 @@ def __main__():
 
     graphics.add_object(GameObject((100, 100)))
 
-    player = c.Player(difficulty = "medium")
-    maze = None # Zde vytvořit mapu
+    player = c.Player(difficulty = "hard")
+    maze = mz.GameBoard(player.map_size[0])
+    maze.generate_board()
+    maze = mz.maze_generation_main()
 
     clock = pygame.time.Clock()
 
@@ -34,7 +38,7 @@ def __main__():
         if c.check_if_is_over(player):
             # Zavolat funkci endScreen
             pass
-
+        print(player.pos_x, player.pos_y)
         c.check_and_change_map(player)
 
         graphics.main_draw()
