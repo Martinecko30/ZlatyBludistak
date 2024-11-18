@@ -38,7 +38,7 @@ def __main__():
             if c.check_if_is_over(player):
                 # Zavolat funkci endScreen
                 pass
-            print(player.pos_x, player.pos_y)
+            logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
             c.check_and_change_map(player)
 
             graphics.main_draw()
