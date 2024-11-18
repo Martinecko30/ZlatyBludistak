@@ -58,9 +58,7 @@ backtrack: checks if any neighbouring cell nas been unvisited
 """
 
 
-def generate_maze():
-
-    board = GameBoard(4)
+def generate_maze(board:GameBoard):
     board.generate_board()
     iterated = 0
     starting_cell = board.board[0][0]
@@ -86,10 +84,14 @@ def generate_maze():
 
         iterated += 1
 
-        '''for item in board.board:
-            for item2 in item:
-                print(item2.visited)'''
-
+    for item in board.board:
+        for item2 in item:
+            print(item2)
+            print(item2.top_wall)
+            print(item2.down_wall)
+            print(item2.left_wall)
+            print(item2.right_wall)
+            print("//////////////////////////////////")
 def step_back(board, move):
     '''
 
@@ -212,5 +214,7 @@ def dice_roll(numb_of_choices:list):
     chosen = choice(numb_of_choices)
     return chosen
 
-if __name__ == '__diceroll__':
-    dice_roll()
+
+"""
+boar_test = GameBoard(10)
+generate_maze(boar_test)"""
