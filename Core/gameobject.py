@@ -1,8 +1,12 @@
+import pygame
+
+
 class GameObject:
-    def __init__(self, position: tuple[int, int]):
+    def __init__(self, position: tuple[int, int], image: pygame.image):
         '''
         Initializes GameObject
-        :param position:
+        :param position: Coordinates of the object [x, y]
+        :param sprite: Sprite of the object
         '''
-        self.x = int(position[0])
-        self.y = int(position[1])
+        self.position = position
+        self.image = image

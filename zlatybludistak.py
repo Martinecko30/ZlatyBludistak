@@ -1,21 +1,18 @@
 import pygame
 import sys, random, time, math
-
-from Core.gameobject import GameObject
+import logger
 from Graphics import graphics
-
 import Core.core as c
-
 import MazeGeneration.MazeGeneration as mz
+from enums import LogLevel
 
 MAX_FPS = 120
 
-
 def __main__():
+    logger.start()
+
     graphics.start()
     running = True
-
-    graphics.add_object(GameObject((100, 100)))
 
     player = c.Player(difficulty = "hard")
     maze = mz.GameBoard(player.map_size[0])
@@ -49,6 +46,7 @@ def __main__():
         clock.tick(MAX_FPS)
 
 def terminate():
+    logger.end()
     graphics.end()
     sys.exit()
 
