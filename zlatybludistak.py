@@ -16,11 +16,13 @@ def __main__():
     try:
         graphics.start()
         running = True
-
-        player = c.Player(difficulty = "hard")
+        
+        player = c.Player(difficulty = "tutorial")
+        
         maze = mz.GameBoard(player.map_size[0])
-        maze.generate_board()
-        maze = mz.maze_generation_main()
+        
+        mz.generate_maze(maze)
+        
 
         clock = pygame.time.Clock()
 
@@ -39,6 +41,7 @@ def __main__():
                 # Zavolat funkci endScreen
                 pass
             logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
+            #print(player.pos_x,player.pos_y)
             c.check_and_change_map(player)
 
             graphics.main_draw()

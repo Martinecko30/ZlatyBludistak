@@ -84,14 +84,14 @@ def generate_maze(board:GameBoard):
 
         iterated += 1
 
-    for item in board.board:
-        for item2 in item:
-            print(item2)
-            print(item2.top_wall)
-            print(item2.down_wall)
-            print(item2.left_wall)
-            print(item2.right_wall)
-            print("//////////////////////////////////")
+    # for item in board.board:
+    #     for item2 in item:
+    #         print(item2)
+    #         print(item2.top_wall)
+    #         print(item2.down_wall)
+    #         print(item2.left_wall)
+    #         print(item2.right_wall)
+    #         print("//////////////////////////////////")
 def step_back(board, move):
     '''
 
