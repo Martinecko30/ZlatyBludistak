@@ -60,7 +60,7 @@ def check_if_is_over(player: Player):
     
 
 
-def check_and_change_map(player: Player):
+def check_and_change_map(player: Player, maze):
     '''
     Parameter: player
     Returnig: none
@@ -68,10 +68,10 @@ def check_and_change_map(player: Player):
     '''
     if time.time() - player.time_in_game > player.time_to_change_map:
         # MazeGeneration.generate_new_map()
-        mz.generate_maze()
+        mz.generate_maze(maze)
         player.time_in_game = time.time()
         print("Cas na zmenu")
-        pass
+        
     
 def handle_player_movement(event, player, maze):
     '''
@@ -81,7 +81,6 @@ def handle_player_movement(event, player, maze):
     '''
     if None is not get_key_direction(event, player):
         if can_make_move(player, maze):
-            print_current_board(player, maze)
             move_player(player)
 
 def get_key_direction(event, player: Player):

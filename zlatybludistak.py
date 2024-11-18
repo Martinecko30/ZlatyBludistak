@@ -42,7 +42,7 @@ def __main__():
                 pass
             logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
             #print(player.pos_x,player.pos_y)
-            c.check_and_change_map(player)
+            c.check_and_change_map(player, maze)
 
             graphics.main_draw()
 
