@@ -1,6 +1,4 @@
-from inspect import stack
-
-from MazeGeneration.diceroll import dice_roll
+from random import choice
 
 class MazeCell:
     def __init__(self, x_coord:int, y_coord:int):
@@ -60,7 +58,7 @@ backtrack: checks if any neighbouring cell nas been unvisited
 """
 
 
-def maze_generation_main():
+def generate_maze():
 
     board = GameBoard(4)
     board.generate_board()
@@ -206,5 +204,13 @@ def cells_wall_cut(board, starting_cell, new_cell, move):
 
     move.append(board.board[new_cell.y_coord][new_cell.x_coord])
 
+def dice_roll(numb_of_choices:list):
+    '''
+    :param numb_of_choices:
+    :return: cosen  --- is universal
+    '''
+    chosen = choice(numb_of_choices)
+    return chosen
 
-maze_generation_main()
+if __name__ == '__diceroll__':
+    dice_roll()
