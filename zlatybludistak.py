@@ -6,7 +6,7 @@ import logger
 from Graphics import graphics
 import Core.core as c
 import MazeGeneration.MazeGeneration as mz
-from enums import LogLevel
+from enums import *
 
 MAX_FPS = 120
 
@@ -17,7 +17,7 @@ def __main__():
         graphics.start()
         running = True
         
-        player = c.Player(difficulty = "tutorial")
+        player = c.Player(position=(0,0), image=None, difficulty= Difficulty.MEDIUM)
         
         maze = mz.GameBoard(player.map_size[0])
         

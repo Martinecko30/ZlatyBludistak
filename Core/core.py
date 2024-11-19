@@ -5,7 +5,8 @@ from pygame.locals import *
 
 import MazeGeneration.MazeGeneration as mz
 import logger as log
-from enums import LogLevel
+from enums import *
+from Core.gameobject import GameObject
 
 UP = "up"
 DOWN = "down"
@@ -14,10 +15,14 @@ RIGHT = "right"
 
 
 
-class Player:
-    def __init__(self, difficulty: str):
-        self.pos_x = 0
-        self.pos_y = 0
+class Player(GameObject):
+    #def __init__(self, difficulty: str):
+    def __init__(self, position: tuple[int, int], image: pygame.image, difficulty: Difficulty):
+        #self.pos_x = 0
+        #self.pos_y = 0
+        super().__init__(position, image)
+        self.pos_x = position[0]
+        self.pos_y = position[1]
         self.direction = None
         self.difficulty = difficulty
         self.time_in_game = time.time()
@@ -27,19 +32,24 @@ class Player:
             
     def set_difficulty(self):
         match self.difficulty:
-            case "tutorial":
+            #case "tutorial":
+            case Difficulty.TUTORIAL:
                 self.time_to_change_map = 30
                 self.map_size = [20, 20]
-            case "easy":
+            #case "easy":
+            case Difficulty.EASY:
                 self.time_to_change_map = 20
                 self.map_size = [40, 40]
-            case "medium":
+            #case "medium":
+            case Difficulty.MEDIUM:
                 self.time_to_change_map = 10
                 self.map_size = [80, 80]
-            case "hard":
+            #case "hard":
+            case Difficulty.HARD:
                 self.time_to_change_map = 5
                 self.map_size = [160, 160]
-            case "dark souls":
+            #case "dark souls":
+            case Difficulty.DARK_SOULS:
                 self.time_to_change_map = 1
                 self.map_size = [500, 500]
             case _:
@@ -53,7 +63,7 @@ def check_if_is_over(player: Player):
     Functionality: Zkontroluje jestli je hráč na konci mapy
     '''
     if player.pos_x == player.map_size[0] - 1 and player.pos_y == player.map_size[1] - 1:
-        print("Je konec hry")
+        #print("Je konec hry")
         diff = time.time() - player.start_time
         # Zavolat fuknci endscreen
         return True
@@ -70,7 +80,7 @@ def check_and_change_map(player: Player, maze):
         # MazeGeneration.generate_new_map()
         mz.generate_maze(maze)
         player.time_in_game = time.time()
-        print("Cas na zmenu")
+        #print("Cas na zmenu")
         
     
 def handle_player_movement(event, player, maze):
@@ -145,19 +155,3 @@ def can_make_move(player: Player, maze):
         return False
     except:
         log.log(log_level.WARNING, "NECO S POHYBEM")
-
-
-
-
-
-
-def terminate():
-    '''
-    Parameter: none
-    Returnig: none
-    Functionality: ukončí aplikaci
-    '''
-    pygame.quit()
-    sys.exit()
-
-
