@@ -181,11 +181,11 @@ def cells_wall_cut(board, starting_cell, new_cell, move):
     '''
     # checks which direction the cell is
 
-    if new_cell.y_coord > starting_cell.y_coord:
+    if new_cell.y_coord < starting_cell.y_coord:
         starting_cell.down_wall = True
         new_cell.top_wall = True
 
-    elif new_cell.y_coord < starting_cell.y_coord:
+    elif new_cell.y_coord > starting_cell.y_coord:
         starting_cell.top_wall = True
         new_cell.down_wall = True
 
