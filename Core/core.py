@@ -7,6 +7,7 @@ import MazeGeneration.MazeGeneration as mz
 import logger as log
 from enums import *
 from Core.gameobject import GameObject
+import Graphics.generateMaze as gz
 
 UP = "up"
 DOWN = "down"
@@ -80,7 +81,9 @@ def check_and_change_map(player: Player, maze):
         # MazeGeneration.generate_new_map()
         mz.generate_maze(maze)
         player.time_in_game = time.time()
-        #print("Cas na zmenu")
+        gz.draw_maze_scene(maze)
+        print("Cas na zmenu")
+    return maze
         
     
 def handle_player_movement(event, player, maze):
@@ -139,19 +142,40 @@ def can_make_move(player: Player, maze):
     Returnig: true, false
     Functionality: Zjisti jeslti může udělat pohyb (jestli tam není zed)
     '''
-    try:
-        if player.direction == UP:
-            if player.pos_y > 0:
-                return not maze.board[player.pos_x][player.pos_y - 1].top_wall
-        elif player.direction == DOWN:
-            if player.pos_y < len(maze.board[0]) - 1:
-                return not maze.board[player.pos_x][player.pos_y + 1].down_wall
-        elif player.direction == LEFT:
-            if player.pos_x > 0:
-                return not maze.board[player.pos_x - 1][player.pos_y].left_wall
-        elif player.direction == RIGHT:
-            if player.pos_x < len(maze.board) - 1:
-                return not maze.board[player.pos_x + 1][player.pos_y].right_wall
-        return False
-    except:
-        log.log(log_level.WARNING, "NECO S POHYBEM")
+    # try:
+    #     if player.direction == UP:
+    #         if player.pos_y > 0:
+    #             return not maze.board[player.pos_x][player.pos_y ].top_wall
+    #     elif player.direction == DOWN:
+    #         if player.pos_y < len(maze.board) - 1:
+    #             return not maze.board[player.pos_x][player.pos_y].down_wall
+    #     elif player.direction == LEFT:
+    #         if player.pos_x > 0:
+    #             return not maze.board[player.pos_x][player.pos_y].left_wall
+    #     elif player.direction == RIGHT:
+    #         if player.pos_x < len(maze.board[0]) - 1:
+    #             return not maze.board[player.pos_x][player.pos_y].right_wall
+    #     return False
+    # except:
+    #     log.log(log_level.WARNING, "NECO S POHYBEM")
+    direction = player.direction
+    x, y = player.pos_x, player.pos_y
+
+    if direction == UP:
+        if y == 0 or maze.board[y][x].top_wall:
+            return False
+        return True
+    elif direction == DOWN:
+        if y == len(maze.board) - 1 or maze.board[y][x].down_wall:
+            return False
+        return True
+    elif direction == LEFT:
+        if x == 0 or maze.board[y][x].left_wall:
+            return False
+        return True
+    elif direction == RIGHT:
+        if x == len(maze.board[0]) - 1 or maze.board[y][x].right_wall:
+            return False
+        return True
+    else:
+        return False  # Neplatný směr

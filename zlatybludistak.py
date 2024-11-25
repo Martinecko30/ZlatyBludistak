@@ -7,6 +7,7 @@ from Graphics import graphics
 import Core.core as c
 import MazeGeneration.MazeGeneration as mz
 from enums import *
+import Graphics.generateMaze as gz
 
 MAX_FPS = 120
 
@@ -17,7 +18,7 @@ def __main__():
         graphics.start()
         running = True
         
-        player = c.Player(position=(0,0), image=None, difficulty= Difficulty.MEDIUM)
+        player = c.Player(position=(0,0), image=None, difficulty= Difficulty.TUTORIAL)
         
         maze = mz.GameBoard(player.map_size[0])
         
@@ -42,13 +43,15 @@ def __main__():
                 pass
             logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
             #print(player.pos_x,player.pos_y)
-            c.check_and_change_map(player, maze)
-
+            maze = c.check_and_change_map(player, maze)
+            
+            
             graphics.main_draw()
+            gz.draw_maze_scene(maze)
+            gz.draw_player(player)
+            #graphics.draw_fog_of_war(5)
 
-            graphics.draw_fog_of_war(5)
-
-            graphics.flip_display()
+            #graphics.flip_display()
             clock.tick(MAX_FPS)
     except:
         logger.log(LogLevel.ERROR, traceback.format_exc())
