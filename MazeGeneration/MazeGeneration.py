@@ -11,13 +11,12 @@ class MazeCell:
         
         column == y | ↓
         """
-        #False with wall means there is wall
         self.x_coord = int(x_coord)
         self.y_coord = int(y_coord)
-        self.top_wall = False
-        self.down_wall = False
-        self.left_wall = False
-        self.right_wall = False
+        self.top_wall = True
+        self.down_wall = True
+        self.left_wall = True
+        self.right_wall = True
         self.visited = False
 
 class GameBoard:
@@ -181,25 +180,25 @@ def cells_wall_cut(board, starting_cell, new_cell, move):
     '''
     # checks which direction the cell is
 
-    if new_cell.y_coord < starting_cell.y_coord:
-        starting_cell.down_wall = True
-        new_cell.top_wall = True
+    if new_cell.y_coord > starting_cell.y_coord:
+        starting_cell.down_wall = False
+        new_cell.top_wall = False
 
-    elif new_cell.y_coord > starting_cell.y_coord:
-        starting_cell.top_wall = True
-        new_cell.down_wall = True
+    elif new_cell.y_coord < starting_cell.y_coord:
+        starting_cell.top_wall = False
+        new_cell.down_wall = False
 
     elif new_cell.x_coord > starting_cell.x_coord:
-        starting_cell.left_wall = True
-        new_cell.right_wall = True
+        starting_cell.left_wall = False
+        new_cell.right_wall = False
 
     elif new_cell.x_coord < starting_cell.x_coord:
-        starting_cell.right_wall = True
-        new_cell.left_wall = True
+        starting_cell.right_wall = False
+        new_cell.left_wall = False
 
     if (new_cell.y_coord == board.size_of_board_y and
             new_cell.x_coord == board.size_of_board_x):
-        new_cell.right_wall = True
+        new_cell.right_wall = False
 
     starting_cell.visited = True
     new_cell.visited = True
