@@ -79,9 +79,12 @@ def check_and_change_map(player: Player, maze):
     '''
     if time.time() - player.time_in_game > player.time_to_change_map:
         # MazeGeneration.generate_new_map()
+        maze = None
+        maze = mz.GameBoard(player.map_size[0])
         mz.generate_maze(maze)
         player.time_in_game = time.time()
         gz.draw_maze_scene(maze)
+        gz.draw_player(player)
         print("Cas na zmenu")
     return maze
         
@@ -95,6 +98,8 @@ def handle_player_movement(event, player, maze):
     if None is not get_key_direction(event, player):
         if can_make_move(player, maze):
             move_player(player)
+            gz.draw_maze_scene(maze)
+            gz.draw_player(player)
 
 def get_key_direction(event, player: Player):
     '''

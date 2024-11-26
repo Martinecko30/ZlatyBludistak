@@ -8,10 +8,13 @@ from Graphics.graphics import *
 
 
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
-CELL_SIZE = 30
+CELL_SIZE = 35 #35 #19 #9.2 #4.7 #1.5
 BLACK = (255,255,255)
+RED = (255, 0, 0)
 COLOR_OF_MAZE = BLACK
 
+
+    
 
 
 def draw_maze_scene(maze):
@@ -51,7 +54,7 @@ def draw_player(player):
         x = player.pos_x * CELL_SIZE + CELL_SIZE // 2
         y = player.pos_y * CELL_SIZE + CELL_SIZE // 2
         radius = CELL_SIZE // 3
-        pygame.draw.circle(DISPLAY, (255, 0, 0), (x, y), radius)
+        pygame.draw.circle(DISPLAY, RED, (x, y), radius)
         pygame.display.flip()  # Update the display
     except:
         print("accc")

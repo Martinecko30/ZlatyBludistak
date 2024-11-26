@@ -23,10 +23,11 @@ def __main__():
         maze = mz.GameBoard(player.map_size[0])
         
         mz.generate_maze(maze)
-        
+        gz.draw_maze_scene(maze)
+        gz.draw_player(player)
 
         clock = pygame.time.Clock()
-
+        
         last_time = 0
         while running:
             current_time = time.time()
@@ -38,6 +39,7 @@ def __main__():
                     running = False
                     terminate()
                 c.handle_player_movement(event, player, maze)
+                
             if c.check_if_is_over(player):
                 # Zavolat funkci endScreen
                 pass
@@ -46,9 +48,8 @@ def __main__():
             maze = c.check_and_change_map(player, maze)
             
             
-            graphics.main_draw()
-            gz.draw_maze_scene(maze)
-            gz.draw_player(player)
+            #graphics.main_draw()
+            
             #graphics.draw_fog_of_war(5)
 
             #graphics.flip_display()
