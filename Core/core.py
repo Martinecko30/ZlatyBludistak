@@ -81,7 +81,7 @@ def check_and_change_map(player: Player, maze):
         # MazeGeneration.generate_new_map()
         maze = None
         maze = mz.GameBoard(player.map_size[0])
-        mz.generate_maze(maze)
+        maze.generate_maze()
         player.time_in_game = time.time()
         gz.draw_maze_scene(maze)
         gz.draw_player(player)

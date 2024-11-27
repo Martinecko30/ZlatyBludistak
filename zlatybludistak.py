@@ -22,7 +22,7 @@ def __main__():
         
         maze = mz.GameBoard(player.map_size[0])
         
-        mz.generate_maze(maze)
+        maze.generate_maze()
         gz.draw_maze_scene(maze)
         gz.draw_player(player)
 
