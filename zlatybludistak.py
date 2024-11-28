@@ -18,14 +18,8 @@ def __main__():
     try:
         graphics.start()
         running = True
+        player, maze = c.start_new_game(Difficulty.TUTORIAL)
         
-        player = c.Player(position=(0,0), image=None, difficulty= Difficulty.TUTORIAL)
-        
-        maze = mz.GameBoard(player.map_size[0])
-        
-        maze.generate_maze()
-        gz.draw_maze_scene(maze)
-        gz.draw_player(player)
         #gz.draw_end_point(maze)
 
         clock = pygame.time.Clock()
@@ -47,7 +41,7 @@ def __main__():
                 s = str(datetime.timedelta(seconds=int(time_in_game)))
                 print(s)
                 #running = False
-                gs.end_screen(s)
+                player, maze = gs.end_screen(s)
                 
             logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
             #print(player.pos_x,player.pos_y)

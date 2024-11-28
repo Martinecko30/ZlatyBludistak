@@ -8,7 +8,7 @@ import logger as log
 from enums import *
 from Core.gameobject import GameObject
 import Graphics.generateMaze as gz
-import Graphics.generateMaze as gs
+
 
 UP = "up"
 DOWN = "down"
@@ -88,7 +88,7 @@ def check_and_change_map(player: Player, maze):
         gz.draw_maze_scene(maze)
         gz.draw_player(player)
 
-        gs.draw_end_point(maze)
+        gz.draw_end_point(maze)
         print("Cas na zmenu")
     return maze
         
@@ -189,3 +189,17 @@ def can_make_move(player: Player, maze):
         return True
     else:
         return False  # Neplatný směr
+
+def start_new_game(diff):
+    print("a")
+    player = Player(position=(0,0), image=None, difficulty= diff)
+    print("b")
+    maze = mz.GameBoard(player.map_size[0])
+    print("c")
+    maze.generate_maze()
+    print("d")
+    gz.draw_maze_scene(maze)
+    print("e")
+    gz.draw_player(player)
+    print("f")
+    return player, maze
