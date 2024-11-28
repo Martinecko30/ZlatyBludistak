@@ -9,10 +9,11 @@ from Graphics.graphics import *
 
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 CELL_SIZE = 35 #35 #19 #9.2 #4.7 #1.5
-BLACK = (255,255,255)
+WHITE = (255,255,255)
+BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0,255,0)
-COLOR_OF_MAZE = BLACK
+COLOR_OF_MAZE = WHITE
 
 
     
@@ -66,4 +67,28 @@ def draw_end_point(maze):
     pygame.display.flip()
 
 def draw_start_screen():
-    pass
+    DISPLAY.fill(BLACK)
+    
+    title_message = "Welcome to the Maze Game"
+    start_message = "Press KEY to start the game"
+    quit_message = "Press ESC to quit"
+    
+    title_surf = FONT.render(title_message, True, WHITE)
+    title_rect = title_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+    DISPLAY.blit(title_surf, title_rect)
+
+    start_surf = FONT.render(start_message, True, WHITE)
+    start_rect = start_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
+    DISPLAY.blit(start_surf, start_rect)
+
+    quit_surf = FONT.render(quit_message, True, WHITE)
+    quit_rect = quit_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 70))
+    DISPLAY.blit(quit_surf, quit_rect)
+    
+    pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                terminate()
+            elif event.type == KEYDOWN:
+                return  # Návrat zpět do hlavní smyčky hry

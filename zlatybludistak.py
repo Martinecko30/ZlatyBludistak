@@ -17,6 +17,7 @@ def __main__():
 
     try:
         graphics.start()
+        gz.draw_start_screen()
         running = True
         player, maze = c.start_new_game(Difficulty.TUTORIAL)
         
@@ -39,7 +40,7 @@ def __main__():
             if is_end:
                 # Zavolat funkci endScreen
                 s = str(datetime.timedelta(seconds=int(time_in_game)))
-                print(s)
+                #print(s)
                 #running = False
                 player, maze = gs.end_screen(s)
                 

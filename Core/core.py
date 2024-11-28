@@ -191,15 +191,10 @@ def can_make_move(player: Player, maze):
         return False  # Neplatný směr
 
 def start_new_game(diff):
-    print("a")
     player = Player(position=(0,0), image=None, difficulty= diff)
-    print("b")
     maze = mz.GameBoard(player.map_size[0])
-    print("c")
     maze.generate_maze()
-    print("d")
     gz.draw_maze_scene(maze)
-    print("e")
     gz.draw_player(player)
-    print("f")
+    
     return player, maze
