@@ -11,6 +11,7 @@ DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 CELL_SIZE = 35 #35 #19 #9.2 #4.7 #1.5
 BLACK = (255,255,255)
 RED = (255, 0, 0)
+GREEN = (0,255,0)
 COLOR_OF_MAZE = BLACK
 
 
@@ -44,6 +45,7 @@ def draw_maze_scene(maze):
                 if cell.right_wall:
                     pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x + CELL_SIZE, y), (x + CELL_SIZE, y + CELL_SIZE), 2)
         pygame.display.flip()  # Update the display
+        draw_end_point(maze)
     except:
         print("aaa")    
     
@@ -58,3 +60,10 @@ def draw_player(player):
         pygame.display.flip()  # Update the display
     except:
         print("accc")
+
+def draw_end_point(maze):
+    pygame.draw.rect(DISPLAY,GREEN,((len(maze.board)-1)*CELL_SIZE+2,(len(maze.board)-1)*CELL_SIZE+2,CELL_SIZE-2,CELL_SIZE-2))
+    pygame.display.flip()
+
+def draw_start_screen():
+    pass

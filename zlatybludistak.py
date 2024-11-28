@@ -1,13 +1,14 @@
 import traceback
 
 import pygame
-import sys, random, time, math
+import sys, random, time, math, datetime
 import logger
 from Graphics import graphics
 import Core.core as c
 import MazeGeneration.MazeGeneration as mz
 from enums import *
 import Graphics.generateMaze as gz
+import Graphics.Scenes as gs
 
 MAX_FPS = 120
 
@@ -25,6 +26,7 @@ def __main__():
         maze.generate_maze()
         gz.draw_maze_scene(maze)
         gz.draw_player(player)
+        #gz.draw_end_point(maze)
 
         clock = pygame.time.Clock()
         
@@ -39,10 +41,14 @@ def __main__():
                     running = False
                     terminate()
                 c.handle_player_movement(event, player, maze)
-                
-            if c.check_if_is_over(player):
+            is_end, time_in_game = c.check_if_is_over(player)
+            if is_end:
                 # Zavolat funkci endScreen
-                pass
+                s = str(datetime.timedelta(seconds=int(time_in_game)))
+                print(s)
+                #running = False
+                gs.end_screen(s)
+                
             logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
             #print(player.pos_x,player.pos_y)
             maze = c.check_and_change_map(player, maze)

@@ -8,6 +8,7 @@ import logger as log
 from enums import *
 from Core.gameobject import GameObject
 import Graphics.generateMaze as gz
+import Graphics.generateMaze as gs
 
 UP = "up"
 DOWN = "down"
@@ -64,10 +65,11 @@ def check_if_is_over(player: Player):
     Functionality: Zkontroluje jestli je hráč na konci mapy
     '''
     if player.pos_x == player.map_size[0] - 1 and player.pos_y == player.map_size[1] - 1:
-        #print("Je konec hry")
+        print("Je konec hry")
         diff = time.time() - player.start_time
         # Zavolat fuknci endscreen
-        return True
+        return True, diff
+    return False, None
     
 
 
@@ -85,6 +87,8 @@ def check_and_change_map(player: Player, maze):
         player.time_in_game = time.time()
         gz.draw_maze_scene(maze)
         gz.draw_player(player)
+
+        gs.draw_end_point(maze)
         print("Cas na zmenu")
     return maze
         
@@ -100,6 +104,7 @@ def handle_player_movement(event, player, maze):
             move_player(player)
             gz.draw_maze_scene(maze)
             gz.draw_player(player)
+            
 
 def get_key_direction(event, player: Player):
     '''
