@@ -3,9 +3,8 @@ import traceback
 import pygame
 import sys, random, time, math, datetime
 import logger
-from Graphics import graphics
+from Graphics import graphics, generateMaze
 import Core.core as c
-import MazeGeneration.MazeGeneration as mz
 from enums import *
 import Graphics.generateMaze as gz
 import Graphics.Scenes as gs
@@ -44,16 +43,16 @@ def __main__():
                 #running = False
                 player, maze = gs.end_screen(s)
                 
-            logger.log(LogLevel.INFO, f"{player.pos_x}, {player.pos_y}")
-            #print(player.pos_x,player.pos_y)
-            maze = c.check_and_change_map(player, maze)
-            
-            
-            #graphics.main_draw()
-            
-            #graphics.draw_fog_of_war(5)
 
-            #graphics.flip_display()
+            #print(player.pos_x,player.pos_y)
+            c.check_and_change_map(player, maze)
+
+            generateMaze.draw_maze_scene(maze, player)
+            generateMaze.draw_player(player)
+            
+            graphics.draw_fog_of_war(5)
+
+            graphics.flip_display()
             clock.tick(MAX_FPS)
     except:
         logger.log(LogLevel.ERROR, traceback.format_exc())

@@ -1,11 +1,11 @@
 import pygame
 from pygame.locals import *
+
+import logger
 from Graphics.graphics import *
 import Core.core as c
 import enums
-
-
-
+from enums import LogLevel
 
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 CELL_SIZE = 35 #35 #19 #9.2 #4.7 #1.5
@@ -19,52 +19,53 @@ COLOR_OF_MAZE = WHITE
     
 
 
-def draw_maze_scene(maze):
+def draw_maze_scene(maze, player):
+    global DISPLAY
     DISPLAY.fill((0, 0, 0))  # Clear the screen with black
-    try:
-        for i in range(len(maze.board)):
-            for j in range(len(maze.board[i])):
-                cell = maze.board[i][j]
-                x = j * CELL_SIZE
-                y = i * CELL_SIZE
+    for i in range(len(maze.board)):
+        for j in range(len(maze.board[i])):
+            cell = maze.board[i][j]
+            x = j * CELL_SIZE - (player.pos_x * CELL_SIZE + CELL_SIZE // 2) + DISPLAY.get_rect().centerx
+            y = i * CELL_SIZE - (player.pos_y * CELL_SIZE + CELL_SIZE // 2) + DISPLAY.get_rect().centery
 
-                # if cell.top_wall:
-                #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x, y, CELL_SIZE, 2))  # Top wall
-                # if cell.down_wall:
-                #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x, y + CELL_SIZE - 2, CELL_SIZE, 2))  # Bottom wall
-                # if cell.left_wall:
-                #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x, y, 2, CELL_SIZE))  # Left wall
-                # if cell.right_wall:
-                #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x + CELL_SIZE - 2, y, 2, CELL_SIZE))  # Right wall
+            # if cell.top_wall:
+            #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x, y, CELL_SIZE, 2))  # Top wall
+            # if cell.down_wall:
+            #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x, y + CELL_SIZE - 2, CELL_SIZE, 2))  # Bottom wall
+            # if cell.left_wall:
+            #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x, y, 2, CELL_SIZE))  # Left wall
+            # if cell.right_wall:
+            #     pygame.draw.rect(DISPLAY, (255, 255, 255), (x + CELL_SIZE - 2, y, 2, CELL_SIZE))  # Right wall
 
-                if cell.top_wall:
-                    pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x, y), (x + CELL_SIZE, y), 2)
-                if cell.down_wall:
-                    pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x, y + CELL_SIZE), (x + CELL_SIZE, y + CELL_SIZE), 2)
-                if cell.left_wall:
-                    pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x, y), (x, y + CELL_SIZE), 2)
-                if cell.right_wall:
-                    pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x + CELL_SIZE, y), (x + CELL_SIZE, y + CELL_SIZE), 2)
-        pygame.display.flip()  # Update the display
-        draw_end_point(maze)
-    except:
-        print("aaa")    
+            if cell.top_wall:
+                pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x, y), (x + CELL_SIZE, y), 2)
+            if cell.down_wall:
+                pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x, y + CELL_SIZE), (x + CELL_SIZE, y + CELL_SIZE), 2)
+            if cell.left_wall:
+                pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x, y), (x, y + CELL_SIZE), 2)
+            if cell.right_wall:
+                pygame.draw.line(DISPLAY, COLOR_OF_MAZE, (x + CELL_SIZE, y), (x + CELL_SIZE, y + CELL_SIZE), 2)
+
+        draw_end_point(maze, player)
     
 
 def draw_player(player):
-    #print("aa",player.pos_x, player.pos_y)
-    try:
-        x = player.pos_x * CELL_SIZE + CELL_SIZE // 2
-        y = player.pos_y * CELL_SIZE + CELL_SIZE // 2
-        radius = CELL_SIZE // 3
-        pygame.draw.circle(DISPLAY, RED, (x, y), radius)
-        pygame.display.flip()  # Update the display
-    except:
-        print("accc")
+    global DISPLAY
 
-def draw_end_point(maze):
-    pygame.draw.rect(DISPLAY,GREEN,((len(maze.board)-1)*CELL_SIZE+2,(len(maze.board)-1)*CELL_SIZE+2,CELL_SIZE-2,CELL_SIZE-2))
-    pygame.display.flip()
+    x = DISPLAY.get_rect().centerx
+    y = DISPLAY.get_rect().centery
+    radius = CELL_SIZE // 3
+    pygame.draw.circle(DISPLAY, RED, (x, y), radius)
+
+def draw_end_point(maze, player):
+    global DISPLAY
+    pygame.draw.rect(DISPLAY,GREEN,
+                     (
+                         (len(maze.board) - 1) * CELL_SIZE + 2 - (player.pos_x * CELL_SIZE + CELL_SIZE // 2) + DISPLAY.get_rect().centerx,
+                         (len(maze.board) - 1) * CELL_SIZE + 2 - (player.pos_y * CELL_SIZE + CELL_SIZE // 2) + DISPLAY.get_rect().centery,
+                         CELL_SIZE - 2,
+                         CELL_SIZE - 2
+                     ))
 
 def draw_start_screen():
     DISPLAY.fill(BLACK)
@@ -92,15 +93,12 @@ def draw_start_screen():
                 try:
                     c.terminate()
                 except Exception as e:
-                    print("a")
-                    print(e)
+                    logger.log(LogLevel.ERROR, str(e))
             elif event.type == KEYDOWN:
                 return  # Návrat zpět do hlavní smyčky hry
 
             mouse = pygame.mouse.get_pos()
-            #print(mouse)
             draw_button(70, 600, "Quit", mouse, event, c.terminate)
-            #draw_button(200, 600, "Eazy", mouse, event, set_difficulty)
 
 
 def draw_button(pos_x, pos_y, text_message, mouse, event, func):
@@ -111,5 +109,5 @@ def draw_button(pos_x, pos_y, text_message, mouse, event, func):
 
     if start_rect.collidepoint(mouse):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            func(param)
+            func()
 

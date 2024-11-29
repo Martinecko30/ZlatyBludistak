@@ -5,11 +5,11 @@ class DrawPosition(Enum):
     MIDDLE = 1
 
 class Difficulty(Enum):
-    TUTORIAL = 0
-    EASY = 1
-    MEDIUM = 2
-    HARD = 3
-    DARK_SOULS = 4
+    TUTORIAL = 20
+    EASY = 40
+    MEDIUM = 80
+    HARD = 160
+    DARK_SOULS = 500
 
 class LogLevel(Enum):
     HIDDEN = "Hidden"

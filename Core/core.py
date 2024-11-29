@@ -5,6 +5,7 @@ from pygame.locals import *
 
 import MazeGeneration.MazeGeneration as mz
 import logger as log
+from MazeGeneration import MazeGeneration
 from enums import *
 from Core.gameobject import GameObject
 import Graphics.generateMaze as gz
@@ -24,7 +25,7 @@ def terminate():
 
 class Player(GameObject):
     #def __init__(self, difficulty: str):
-    def __init__(self, position: tuple[int, int], image: pygame.image, difficulty: Difficulty):
+    def __init__(self, position: tuple[int, int], image: pygame.image, difficulty: Difficulty, maze: MazeGeneration.GameBoard):
         #self.pos_x = 0
         #self.pos_y = 0
         super().__init__(position, image)
@@ -35,7 +36,8 @@ class Player(GameObject):
         self.time_in_game = time.time()
         self.start_time = time.time()
 
-        self.set_difficulty() 
+        self.set_difficulty()
+        self.maze = maze
             
     def set_difficulty(self):
         match self.difficulty:
@@ -86,15 +88,10 @@ def check_and_change_map(player: Player, maze):
     '''
     if time.time() - player.time_in_game > player.time_to_change_map:
         # MazeGeneration.generate_new_map()
-        maze = None
-        maze = mz.GameBoard(player.map_size[0])
-        maze.generate_maze()
+        player.maze = mz.GameBoard(player.map_size[0])
+        player.maze.generate_maze()
         player.time_in_game = time.time()
-        gz.draw_maze_scene(maze)
-        gz.draw_player(player)
-
-        gz.draw_end_point(maze)
-        print("Cas na zmenu")
+        logger.log(LogLevel.INFO, "Cas na zmenu")
     return maze
         
     
@@ -107,8 +104,6 @@ def handle_player_movement(event, player, maze):
     if None is not get_key_direction(event, player):
         if can_make_move(player, maze):
             move_player(player)
-            gz.draw_maze_scene(maze)
-            gz.draw_player(player)
             
 
 def get_key_direction(event, player: Player):
@@ -195,11 +190,9 @@ def can_make_move(player: Player, maze):
     else:
         return False  # Neplatný směr
 
-def start_new_game(diff):
-    player = Player(position=(0,0), image=None, difficulty= diff)
+def start_new_game(diff: Difficulty):
+    player = Player(position=(0,0), image=None, difficulty= diff, maze=MazeGeneration.GameBoard(diff.value))
     maze = mz.GameBoard(player.map_size[0])
     maze.generate_maze()
-    gz.draw_maze_scene(maze)
-    gz.draw_player(player)
     
     return player, maze
