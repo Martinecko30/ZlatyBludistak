@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from pygame import Color
 from Graphics.graphics import *
-from zlatybludistak import terminate
+#from zlatybludistak import terminate
 import Core.core as c
 from enums import *
 
@@ -32,6 +32,10 @@ def end_screen(time_in_game):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                terminate()
+                try:
+                    c.terminate()
+                except Exception as e:
+                    print("a")
+                    print(e)
             elif event.type == KEYDOWN:
                 return c.start_new_game(Difficulty.TUTORIAL)

@@ -1,8 +1,8 @@
 import pygame
 from pygame.locals import *
 from Graphics.graphics import *
-
-
+import Core.core as c
+import enums
 
 
 
@@ -89,6 +89,27 @@ def draw_start_screen():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                terminate()
+                try:
+                    c.terminate()
+                except Exception as e:
+                    print("a")
+                    print(e)
             elif event.type == KEYDOWN:
                 return  # Návrat zpět do hlavní smyčky hry
+
+            mouse = pygame.mouse.get_pos()
+            #print(mouse)
+            draw_button(70, 600, "Quit", mouse, event, c.terminate)
+            #draw_button(200, 600, "Eazy", mouse, event, set_difficulty)
+
+
+def draw_button(pos_x, pos_y, text_message, mouse, event, func):
+    start_surf = FONT.render(text_message, True, WHITE)
+    start_rect = start_surf.get_rect(center=(pos_x,pos_y))
+    DISPLAY.blit(start_surf, start_rect)
+    pygame.display.update()
+
+    if start_rect.collidepoint(mouse):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            func(param)
+

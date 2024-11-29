@@ -34,7 +34,7 @@ def __main__():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                    terminate()
+                    c.terminate()
                 c.handle_player_movement(event, player, maze)
             is_end, time_in_game = c.check_if_is_over(player)
             if is_end:
@@ -57,12 +57,9 @@ def __main__():
             clock.tick(MAX_FPS)
     except:
         logger.log(LogLevel.ERROR, traceback.format_exc())
-        terminate()
+        c.terminate()
 
-def terminate():
-    logger.end()
-    graphics.end()
-    sys.exit()
+
 
 if __name__ == "__main__":
     __main__()

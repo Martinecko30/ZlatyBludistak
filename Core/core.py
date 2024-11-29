@@ -8,6 +8,8 @@ import logger as log
 from enums import *
 from Core.gameobject import GameObject
 import Graphics.generateMaze as gz
+import logger
+import Graphics.graphics as graphics
 
 
 UP = "up"
@@ -15,7 +17,10 @@ DOWN = "down"
 LEFT = "left"
 RIGHT = "right"
 
-
+def terminate():
+    logger.end()
+    graphics.end()
+    sys.exit()
 
 class Player(GameObject):
     #def __init__(self, difficulty: str):
