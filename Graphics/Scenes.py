@@ -5,6 +5,7 @@ from Graphics.graphics import *
 #from zlatybludistak import terminate
 import Core.core as c
 from enums import *
+import Graphics.generateMaze as gz
 
 def end_screen(time_in_game):
 
@@ -35,7 +36,9 @@ def end_screen(time_in_game):
                 try:
                     c.terminate()
                 except Exception as e:
-                    print("a")
                     print(e)
             elif event.type == KEYDOWN:
                 return c.start_new_game(Difficulty.TUTORIAL)
+            diff= gz.set_all_buttons(event)
+            if diff:
+                return c.start_new_game(diff)

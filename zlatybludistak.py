@@ -16,9 +16,9 @@ def __main__():
 
     try:
         graphics.start()
-        gz.draw_start_screen()
+        diff = gz.draw_start_screen()
         running = True
-        player, maze = c.start_new_game(Difficulty.TUTORIAL)
+        player, maze = c.start_new_game(diff)
         
         #gz.draw_end_point(maze)
 
@@ -45,7 +45,7 @@ def __main__():
                 
 
             #print(player.pos_x,player.pos_y)
-            c.check_and_change_map(player, maze)
+            player, maze = c.check_and_change_map(player, maze)
 
             generateMaze.draw_maze_scene(maze, player)
             generateMaze.draw_player(player)

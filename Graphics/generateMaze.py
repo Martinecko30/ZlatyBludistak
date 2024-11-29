@@ -5,7 +5,7 @@ import logger
 from Graphics.graphics import *
 import Core.core as c
 import enums
-from enums import LogLevel
+from enums import LogLevel, Difficulty
 
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 CELL_SIZE = 35 #35 #19 #9.2 #4.7 #1.5
@@ -14,7 +14,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0,255,0)
 COLOR_OF_MAZE = WHITE
-
+CENTER_WIDTH = WIDTH/2
 
     
 
@@ -75,15 +75,15 @@ def draw_start_screen():
     quit_message = "Press ESC to quit"
     
     title_surf = FONT.render(title_message, True, WHITE)
-    title_rect = title_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+    title_rect = title_surf.get_rect(center=(CENTER_WIDTH, HEIGHT // 2 - 50))
     DISPLAY.blit(title_surf, title_rect)
 
     start_surf = FONT.render(start_message, True, WHITE)
-    start_rect = start_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
+    start_rect = start_surf.get_rect(center=(CENTER_WIDTH, HEIGHT // 2 + 20))
     DISPLAY.blit(start_surf, start_rect)
 
     quit_surf = FONT.render(quit_message, True, WHITE)
-    quit_rect = quit_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 70))
+    quit_rect = quit_surf.get_rect(center=(CENTER_WIDTH, HEIGHT // 2 + 70))
     DISPLAY.blit(quit_surf, quit_rect)
     
     pygame.display.update()
@@ -95,13 +95,33 @@ def draw_start_screen():
                 except Exception as e:
                     logger.log(LogLevel.ERROR, str(e))
             elif event.type == KEYDOWN:
-                return  # Návrat zpět do hlavní smyčky hry
+                return Difficulty.TUTORIAL
+        diff= set_all_buttons(event)
+        if diff:
+            return diff
 
-            mouse = pygame.mouse.get_pos()
-            draw_button(70, 600, "Quit", mouse, event, c.terminate)
+def set_all_buttons(event):
+    mouse = pygame.mouse.get_pos()
+    draw_button(70, 600, "Quit", mouse, event, c.terminate, None)
+    
+    diff = draw_button(CENTER_WIDTH-260, 600, "Tutorial", mouse, event, print, Difficulty.TUTORIAL)
+    if diff:
+        return diff
+    diff = draw_button(CENTER_WIDTH-130, 600, "Easy", mouse, event, print, Difficulty.EASY)
+    if diff:
+        return diff
+    diff = draw_button(CENTER_WIDTH+0, 600, "Medium", mouse, event, print, Difficulty.MEDIUM)
+    if diff:
+        return diff
+    diff = draw_button(CENTER_WIDTH+130, 600, "Hard", mouse, event, print, Difficulty.HARD)
+    if diff:
+        return diff
+    diff = draw_button(CENTER_WIDTH+260, 600, "Dark souls", mouse, event, print, Difficulty.DARK_SOULS)
+    if diff:
+        return diff
 
 
-def draw_button(pos_x, pos_y, text_message, mouse, event, func):
+def draw_button(pos_x, pos_y, text_message, mouse, event, func, selected_diff):
     start_surf = FONT.render(text_message, True, WHITE)
     start_rect = start_surf.get_rect(center=(pos_x,pos_y))
     DISPLAY.blit(start_surf, start_rect)
@@ -110,4 +130,11 @@ def draw_button(pos_x, pos_y, text_message, mouse, event, func):
     if start_rect.collidepoint(mouse):
         if event.type == pygame.MOUSEBUTTONDOWN:
             func()
+            return selected_diff
+        draw_hover(pos_x, pos_y, text_message)
 
+def draw_hover(pos_x, pos_y, text_message):
+    start_surf = FONT.render(text_message, True, RED)
+    start_rect = start_surf.get_rect(center=(pos_x,pos_y))
+    DISPLAY.blit(start_surf, start_rect)
+    pygame.display.update()
