@@ -1,6 +1,7 @@
 import pygame
 import sys
 import time
+from pygame import mixer 
 from pygame.locals import *
 
 import MazeGeneration.MazeGeneration as mz
@@ -17,6 +18,9 @@ UP = "up"
 DOWN = "down"
 LEFT = "left"
 RIGHT = "right"
+START_SOUND = "resources\\ElevatorMusic.mp3"
+PLAYING_SOUND = "resources\\MinecraftTheme.mp3"
+YOU_WIN_SOUND = "resources\\YouWin.mp3"
 
 def terminate():
     logger.end()
@@ -200,3 +204,23 @@ def start_new_game(diff: Difficulty):
     maze.generate_maze()
     
     return player, maze
+
+
+def play_sound_starting():
+    mixer.music.load(START_SOUND)
+    mixer.music.play(-1)
+
+def play_sound_playing():
+    mixer.music.load(PLAYING_SOUND)
+    mixer.music.play(-1)
+
+def play_sound_You_win():
+    mixer.music.load(YOU_WIN_SOUND)
+    mixer.music.play()
+
+def stop_playing_sound():
+    if mixer.music.get_busy():
+        mixer.music.stop()
+
+def init_sound():
+    mixer.init()

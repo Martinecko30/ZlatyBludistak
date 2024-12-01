@@ -31,6 +31,8 @@ def end_screen(time_in_game):
 
     pygame.display.update()
     while True:
+        if not c.mixer.music.get_busy():
+            c.play_sound_starting()
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                 try:

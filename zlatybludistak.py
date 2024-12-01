@@ -15,8 +15,12 @@ def __main__():
     logger.start()
 
     try:
+        c.init_sound()
+        c.play_sound_starting()
         graphics.start()
         diff = gz.draw_start_screen()
+        c.stop_playing_sound()
+        c.play_sound_playing()
         running = True
         player, maze = c.start_new_game(diff)
         
@@ -38,11 +42,15 @@ def __main__():
             is_end, time_in_game = c.check_if_is_over(player)
             if is_end:
                 # Zavolat funkci endScreen
+                c.stop_playing_sound()
+                c.play_sound_You_win()
+                
                 s = str(datetime.timedelta(seconds=int(time_in_game)))
                 #print(s)
                 #running = False
                 player, maze = gs.end_screen(s)
-                
+                c.stop_playing_sound()
+                c.play_sound_playing()
 
             #print(player.pos_x,player.pos_y)
             player, maze = c.check_and_change_map(player, maze)
